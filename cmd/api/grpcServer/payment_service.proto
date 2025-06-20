@@ -77,6 +77,17 @@ message Create_Payment_Intent_INR_Request {
     string success_url = 3;
     Currency currency = 4;
     int32 price = 5;
+    string phone_number = 6;
+    string email = 7;
+    string name = 8;
+    string cancel_url = 9;
+    string country = 10;
+    string state = 11;
+    string city = 12;
+    int32 zipcode = 13;
+    string street = 14;
+    string movieName = 15;
+    string movieID = 16;
 }
 
 message Create_Payment_Intent_INR_Response {
@@ -84,10 +95,11 @@ message Create_Payment_Intent_INR_Response {
     string error = 2;
     string message = 3;
     reserved 4;
-    string client_secret = 5;
+    reserved 5;
+    string payment_link = 6;
 }
 
 service PaymentService {
     rpc CreateCheckOutSession(CreateCheckoutSessionRequest) returns (CreateCheckoutSessionResponse);
-    rpc Create_Payment_Intent_INR(Create_Payment_Intent_INR_Request) returns (Create_Payment_Intent_INR_Response);
+    rpc CreatePaymentLink(Create_Payment_Intent_INR_Request) returns (Create_Payment_Intent_INR_Response);
 }

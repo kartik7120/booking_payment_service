@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PaymentService_CreateCheckOutSession_FullMethodName     = "/moviedb_service.PaymentService/CreateCheckOutSession"
-	PaymentService_Create_Payment_Intent_INR_FullMethodName = "/moviedb_service.PaymentService/Create_Payment_Intent_INR"
+	PaymentService_CreateCheckOutSession_FullMethodName = "/moviedb_service.PaymentService/CreateCheckOutSession"
+	PaymentService_CreatePaymentLink_FullMethodName     = "/moviedb_service.PaymentService/CreatePaymentLink"
 )
 
 // PaymentServiceClient is the client API for PaymentService service.
@@ -28,7 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PaymentServiceClient interface {
 	CreateCheckOutSession(ctx context.Context, in *CreateCheckoutSessionRequest, opts ...grpc.CallOption) (*CreateCheckoutSessionResponse, error)
-	Create_Payment_Intent_INR(ctx context.Context, in *Create_Payment_Intent_INR_Request, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error)
+	CreatePaymentLink(ctx context.Context, in *Create_Payment_Intent_INR_Request, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error)
 }
 
 type paymentServiceClient struct {
@@ -49,10 +49,10 @@ func (c *paymentServiceClient) CreateCheckOutSession(ctx context.Context, in *Cr
 	return out, nil
 }
 
-func (c *paymentServiceClient) Create_Payment_Intent_INR(ctx context.Context, in *Create_Payment_Intent_INR_Request, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error) {
+func (c *paymentServiceClient) CreatePaymentLink(ctx context.Context, in *Create_Payment_Intent_INR_Request, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Create_Payment_Intent_INR_Response)
-	err := c.cc.Invoke(ctx, PaymentService_Create_Payment_Intent_INR_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PaymentService_CreatePaymentLink_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (c *paymentServiceClient) Create_Payment_Intent_INR(ctx context.Context, in
 // for forward compatibility.
 type PaymentServiceServer interface {
 	CreateCheckOutSession(context.Context, *CreateCheckoutSessionRequest) (*CreateCheckoutSessionResponse, error)
-	Create_Payment_Intent_INR(context.Context, *Create_Payment_Intent_INR_Request) (*Create_Payment_Intent_INR_Response, error)
+	CreatePaymentLink(context.Context, *Create_Payment_Intent_INR_Request) (*Create_Payment_Intent_INR_Response, error)
 	mustEmbedUnimplementedPaymentServiceServer()
 }
 
@@ -78,8 +78,8 @@ type UnimplementedPaymentServiceServer struct{}
 func (UnimplementedPaymentServiceServer) CreateCheckOutSession(context.Context, *CreateCheckoutSessionRequest) (*CreateCheckoutSessionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCheckOutSession not implemented")
 }
-func (UnimplementedPaymentServiceServer) Create_Payment_Intent_INR(context.Context, *Create_Payment_Intent_INR_Request) (*Create_Payment_Intent_INR_Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create_Payment_Intent_INR not implemented")
+func (UnimplementedPaymentServiceServer) CreatePaymentLink(context.Context, *Create_Payment_Intent_INR_Request) (*Create_Payment_Intent_INR_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePaymentLink not implemented")
 }
 func (UnimplementedPaymentServiceServer) mustEmbedUnimplementedPaymentServiceServer() {}
 func (UnimplementedPaymentServiceServer) testEmbeddedByValue()                        {}
@@ -120,20 +120,20 @@ func _PaymentService_CreateCheckOutSession_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PaymentService_Create_Payment_Intent_INR_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PaymentService_CreatePaymentLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Create_Payment_Intent_INR_Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PaymentServiceServer).Create_Payment_Intent_INR(ctx, in)
+		return srv.(PaymentServiceServer).CreatePaymentLink(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PaymentService_Create_Payment_Intent_INR_FullMethodName,
+		FullMethod: PaymentService_CreatePaymentLink_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PaymentServiceServer).Create_Payment_Intent_INR(ctx, req.(*Create_Payment_Intent_INR_Request))
+		return srv.(PaymentServiceServer).CreatePaymentLink(ctx, req.(*Create_Payment_Intent_INR_Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -150,8 +150,8 @@ var PaymentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PaymentService_CreateCheckOutSession_Handler,
 		},
 		{
-			MethodName: "Create_Payment_Intent_INR",
-			Handler:    _PaymentService_Create_Payment_Intent_INR_Handler,
+			MethodName: "CreatePaymentLink",
+			Handler:    _PaymentService_CreatePaymentLink_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

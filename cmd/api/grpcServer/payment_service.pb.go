@@ -509,6 +509,17 @@ type Create_Payment_Intent_INR_Request struct {
 	SuccessUrl    string                 `protobuf:"bytes,3,opt,name=success_url,json=successUrl,proto3" json:"success_url,omitempty"`
 	Currency      Currency               `protobuf:"varint,4,opt,name=currency,proto3,enum=moviedb_service.Currency" json:"currency,omitempty"`
 	Price         int32                  `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,6,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email,omitempty"`
+	Name          string                 `protobuf:"bytes,8,opt,name=name,proto3" json:"name,omitempty"`
+	CancelUrl     string                 `protobuf:"bytes,9,opt,name=cancel_url,json=cancelUrl,proto3" json:"cancel_url,omitempty"`
+	Country       string                 `protobuf:"bytes,10,opt,name=country,proto3" json:"country,omitempty"`
+	State         string                 `protobuf:"bytes,11,opt,name=state,proto3" json:"state,omitempty"`
+	City          string                 `protobuf:"bytes,12,opt,name=city,proto3" json:"city,omitempty"`
+	Zipcode       int32                  `protobuf:"varint,13,opt,name=zipcode,proto3" json:"zipcode,omitempty"`
+	Street        string                 `protobuf:"bytes,14,opt,name=street,proto3" json:"street,omitempty"`
+	MovieName     string                 `protobuf:"bytes,15,opt,name=movieName,proto3" json:"movieName,omitempty"`
+	MovieID       string                 `protobuf:"bytes,16,opt,name=movieID,proto3" json:"movieID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -571,12 +582,89 @@ func (x *Create_Payment_Intent_INR_Request) GetPrice() int32 {
 	return 0
 }
 
+func (x *Create_Payment_Intent_INR_Request) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetCancelUrl() string {
+	if x != nil {
+		return x.CancelUrl
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetState() string {
+	if x != nil {
+		return x.State
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetCity() string {
+	if x != nil {
+		return x.City
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetZipcode() int32 {
+	if x != nil {
+		return x.Zipcode
+	}
+	return 0
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetStreet() string {
+	if x != nil {
+		return x.Street
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetMovieName() string {
+	if x != nil {
+		return x.MovieName
+	}
+	return ""
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetMovieID() string {
+	if x != nil {
+		return x.MovieID
+	}
+	return ""
+}
+
 type Create_Payment_Intent_INR_Response struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
 	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
-	ClientSecret  string                 `protobuf:"bytes,5,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
+	PaymentLink   string                 `protobuf:"bytes,6,opt,name=payment_link,json=paymentLink,proto3" json:"payment_link,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -632,9 +720,9 @@ func (x *Create_Payment_Intent_INR_Response) GetMessage() string {
 	return ""
 }
 
-func (x *Create_Payment_Intent_INR_Response) GetClientSecret() string {
+func (x *Create_Payment_Intent_INR_Response) GetPaymentLink() string {
 	if x != nil {
-		return x.ClientSecret
+		return x.PaymentLink
 	}
 	return ""
 }
@@ -666,18 +754,31 @@ const file_payment_service_proto_rawDesc = "" +
 	"\x1dCreateCheckoutSessionResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
-	"\amessage\x18\x03 \x01(\tR\amessage\"\xb3\x01\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\"\xcd\x03\n" +
 	"!Create_Payment_Intent_INR_Request\x12\x1a\n" +
 	"\bquintity\x18\x01 \x01(\x05R\bquintity\x12\x1f\n" +
 	"\vsuccess_url\x18\x03 \x01(\tR\n" +
 	"successUrl\x125\n" +
 	"\bcurrency\x18\x04 \x01(\x0e2\x19.moviedb_service.CurrencyR\bcurrency\x12\x14\n" +
-	"\x05price\x18\x05 \x01(\x05R\x05priceJ\x04\b\x02\x10\x03\"\x97\x01\n" +
+	"\x05price\x18\x05 \x01(\x05R\x05price\x12!\n" +
+	"\fphone_number\x18\x06 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\a \x01(\tR\x05email\x12\x12\n" +
+	"\x04name\x18\b \x01(\tR\x04name\x12\x1d\n" +
+	"\n" +
+	"cancel_url\x18\t \x01(\tR\tcancelUrl\x12\x18\n" +
+	"\acountry\x18\n" +
+	" \x01(\tR\acountry\x12\x14\n" +
+	"\x05state\x18\v \x01(\tR\x05state\x12\x12\n" +
+	"\x04city\x18\f \x01(\tR\x04city\x12\x18\n" +
+	"\azipcode\x18\r \x01(\x05R\azipcode\x12\x16\n" +
+	"\x06street\x18\x0e \x01(\tR\x06street\x12\x1c\n" +
+	"\tmovieName\x18\x0f \x01(\tR\tmovieName\x12\x18\n" +
+	"\amovieID\x18\x10 \x01(\tR\amovieIDJ\x04\b\x02\x10\x03\"\x9b\x01\n" +
 	"\"Create_Payment_Intent_INR_Response\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
-	"\amessage\x18\x03 \x01(\tR\amessage\x12#\n" +
-	"\rclient_secret\x18\x05 \x01(\tR\fclientSecretJ\x04\b\x04\x10\x05*\xd0\x01\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x12!\n" +
+	"\fpayment_link\x18\x06 \x01(\tR\vpaymentLinkJ\x04\b\x04\x10\x05J\x04\b\x05\x10\x06*\xd0\x01\n" +
 	"\bCurrency\x12\a\n" +
 	"\x03INR\x10\x00\x12\a\n" +
 	"\x03USD\x10\x01\x12\a\n" +
@@ -708,10 +809,10 @@ const file_payment_service_proto_rawDesc = "" +
 	"\x15PAYMENT_STATUS_FAILED\x10\x02*,\n" +
 	"\vPaymentType\x12\x12\n" +
 	"\x0eTICKET_BOOKING\x10\x00\x12\t\n" +
-	"\x05MEALS\x10\x012\x8f\x02\n" +
+	"\x05MEALS\x10\x012\x86\x02\n" +
 	"\x0ePaymentService\x12v\n" +
-	"\x15CreateCheckOutSession\x12-.moviedb_service.CreateCheckoutSessionRequest\x1a..moviedb_service.CreateCheckoutSessionResponse\x12\x84\x01\n" +
-	"\x19Create_Payment_Intent_INR\x122.moviedb_service.Create_Payment_Intent_INR_Request\x1a3.moviedb_service.Create_Payment_Intent_INR_ResponseBNZLgithub.com/kartik7120/booking_payment_service/cmd/grpcServer;payment_serviceb\x06proto3"
+	"\x15CreateCheckOutSession\x12-.moviedb_service.CreateCheckoutSessionRequest\x1a..moviedb_service.CreateCheckoutSessionResponse\x12|\n" +
+	"\x11CreatePaymentLink\x122.moviedb_service.Create_Payment_Intent_INR_Request\x1a3.moviedb_service.Create_Payment_Intent_INR_ResponseBNZLgithub.com/kartik7120/booking_payment_service/cmd/grpcServer;payment_serviceb\x06proto3"
 
 var (
 	file_payment_service_proto_rawDescOnce sync.Once
@@ -745,9 +846,9 @@ var file_payment_service_proto_depIdxs = []int32{
 	3, // 2: moviedb_service.CreateCheckoutSessionRequest.payment_items:type_name -> moviedb_service.CheckoutSessionLineItemParam
 	0, // 3: moviedb_service.Create_Payment_Intent_INR_Request.currency:type_name -> moviedb_service.Currency
 	5, // 4: moviedb_service.PaymentService.CreateCheckOutSession:input_type -> moviedb_service.CreateCheckoutSessionRequest
-	7, // 5: moviedb_service.PaymentService.Create_Payment_Intent_INR:input_type -> moviedb_service.Create_Payment_Intent_INR_Request
+	7, // 5: moviedb_service.PaymentService.CreatePaymentLink:input_type -> moviedb_service.Create_Payment_Intent_INR_Request
 	6, // 6: moviedb_service.PaymentService.CreateCheckOutSession:output_type -> moviedb_service.CreateCheckoutSessionResponse
-	8, // 7: moviedb_service.PaymentService.Create_Payment_Intent_INR:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
+	8, // 7: moviedb_service.PaymentService.CreatePaymentLink:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
 	6, // [6:8] is the sub-list for method output_type
 	4, // [4:6] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
