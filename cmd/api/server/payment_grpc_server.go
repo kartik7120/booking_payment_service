@@ -4,8 +4,10 @@ import (
 	"context"
 	"os"
 
+	"github.com/dodopayments/dodopayments-go"
+	"github.com/dodopayments/dodopayments-go/option"
+	"github.com/go-playground/validator/v10"
 	payment_service "github.com/kartik7120/booking_payment_service/cmd/api/grpcServer"
-	"github.com/stripe/stripe-go/v82"
 )
 
 type Payment_Server struct {
@@ -15,13 +17,29 @@ type Payment_Server struct {
 
 func NewPaymentServer() *Payment_Server {
 	// Initialize the Payment_Service
-	if os.Getenv("STRIPE_SECRET_KEY") == "" {
-		panic("STRIPE_SECRET_KEY environment variable is not set")
+	if os.Getenv("DODOPAYMENT_TOKEN") == "" {
+		panic("DODOPAYMENT_TOKEN environment variable is not set")
 	}
 
-	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
+	if os.Getenv("ENV") == "test" {
+		return &Payment_Server{
+			Ps: &Payment_Service{
+				Client: dodopayments.NewClient(
+					option.WithBearerToken(os.Getenv("DODOPAYMENT_TOKEN")),
+					option.WithBaseURL("https://test.dodopayments.com"),
+				),
+				Validator: validator.New(),
+			},
+		}
+	}
+
 	return &Payment_Server{
-		Ps: &Payment_Service{},
+		Ps: &Payment_Service{
+			Client: dodopayments.NewClient(
+				option.WithBearerToken(os.Getenv("DODOPAYMENT_TOKEN")),
+			),
+			Validator: validator.New(),
+		},
 	}
 }
 
@@ -41,18 +59,32 @@ func (p *Payment_Server) CreateCheckoutSession(ctx context.Context, in *payment_
 	}, nil
 }
 
-func (p *Payment_Server) CreatePaymentIntentINR(ctx context.Context, in *payment_service.Create_Payment_Intent_INR_Request) (*payment_service.Create_Payment_Intent_INR_Response, error) {
+func (p *Payment_Server) CreatePaymentLink(ctx context.Context, in *payment_service.Create_Payment_Intent_INR_Request) (*payment_service.Create_Payment_Intent_INR_Response, error) {
 
-	intent, err := p.Ps.Create_Payment_Intent_INR(uint(in.Quintity), uint(in.Price))
+	paymentLink, err := p.Ps.Create_Payment_Intent_INR(
+		CreatePaymentIntentPayload{
+			Quantity:    uint(in.Quintity),
+			Price:       uint(in.Price),
+			Email:       in.Email,
+			PhoneNumber: in.PhoneNumber,
+			Name:        in.Name,
+			MovieName:   in.MovieName,
+			Country:     in.Country,
+			State:       in.State,
+			City:        in.City,
+			Street:      in.Street,
+			Zipcode:     string(in.Zipcode),
+		},
+	)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return &payment_service.Create_Payment_Intent_INR_Response{
-		Status:       200,
-		Message:      "Payment intent created successfully",
-		Error:        "",
-		ClientSecret: intent.ClientSecret,
+		Status:      200,
+		Message:     "Payment intent created successfully",
+		Error:       "",
+		PaymentLink: paymentLink,
 	}, nil
 }

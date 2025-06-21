@@ -1,13 +1,32 @@
 package server
 
 import (
+	"context"
+	"fmt"
+
+	"github.com/dodopayments/dodopayments-go"
+	"github.com/go-playground/validator/v10"
 	moviedb "github.com/kartik7120/booking_payment_service/cmd/api/grpcServer"
 	log "github.com/sirupsen/logrus"
-	"github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/paymentintent"
 )
 
 type Payment_Service struct {
+	Client    *dodopayments.Client
+	Validator *validator.Validate
+}
+
+type CreatePaymentIntentPayload struct {
+	Quantity    uint   `json:"quantity" validate:"required"`
+	Price       uint   `json:"price" validate:"required"`
+	Email       string `json:"email" validate:"required,email"`
+	PhoneNumber string `json:"phone_number" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	MovieName   string `json:"movie_name" validate:"required"`
+	Country     string `json:"country" validate:"required"`
+	State       string `json:"state" validate:"required"`
+	City        string `json:"city" validate:"required"`
+	Street      string `json:"street" validate:"required"`
+	Zipcode     string `json:"zipcode" validate:"required"`
 }
 
 func (m *Payment_Service) Create_Checkout_Session(request *moviedb.CreateCheckoutSessionRequest) (int, error) {
@@ -46,26 +65,60 @@ func (m *Payment_Service) Create_Checkout_Session(request *moviedb.CreateCheckou
 	return 200, nil
 }
 
-func (m *Payment_Service) Create_Payment_Intent_INR(quantity uint, price uint) (*stripe.PaymentIntent, error) {
-	// Create a payment intent with the ticket product
-	// Return the payment intent ID
+func (m *Payment_Service) Create_Payment_Intent_INR(payload CreatePaymentIntentPayload) (string, error) {
 
-	params := &stripe.PaymentIntentParams{
-		Amount:   stripe.Int64(int64(price * quantity)),
-		Currency: stripe.String(string(stripe.CurrencyINR)),
-		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
-			Enabled: stripe.Bool(true),
-		},
+	customer, err := m.Create_Customer(payload.Email, payload.Name, payload.PhoneNumber)
+
+	if err != nil {
+		return "", err
 	}
 
-	result, err := paymentintent.New(params)
+	Product, err := m.Create_Product_Ticket(Product{
+		ProductName:        payload.MovieName,
+		Price:              int64(payload.Price),
+		ProductDescription: fmt.Sprintf("Ticket for movie: %s", payload.MovieName),
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	log.Infof("Creating payment intent for product: %s with price: %d and quintity: %d", Product.ProductID, payload.Price, payload.Quantity)
+
+	dodopayments.NewWebhookEventService()
+	payment, err := m.Client.Payments.New(
+		context.TODO(),
+		dodopayments.PaymentNewParams{
+			PaymentLink: dodopayments.F(true),
+			ProductCart: dodopayments.F(
+				[]dodopayments.OneTimeProductCartItemParam{
+					{
+						Quantity:  dodopayments.F(int64(payload.Quantity)),
+						ProductID: dodopayments.F(Product.ProductID), // Replace with actual product ID
+					},
+				},
+			),
+			Billing: dodopayments.F(
+				dodopayments.BillingAddressParam{
+					Country: dodopayments.F(dodopayments.CountryCodeIn),
+					State:   dodopayments.F(payload.State),
+					City:    dodopayments.F(payload.City),
+					Street:  dodopayments.F(payload.Street),
+					Zipcode: dodopayments.F(payload.Zipcode),
+				},
+			),
+			Customer: dodopayments.F[dodopayments.CustomerRequestUnionParam](dodopayments.AttachExistingCustomerParam{
+				CustomerID: dodopayments.F(customer.CustomerID),
+			}),
+			ReturnURL:       dodopayments.F("https://example.com/return"), // Replace with your return URL
+			BillingCurrency: dodopayments.F(dodopayments.CurrencyInr),
+		},
+	)
 
 	if err != nil {
 		log.Error("Failed to create payment intent: ", err)
-		return nil, err
+		return "", fmt.Errorf("failed to create payment intent: %w", err)
 	}
 
-	log.Info("Payment intent created successfully for amount: ", price*quantity)
-
-	return result, nil
+	return payment.PaymentLink, nil
 }

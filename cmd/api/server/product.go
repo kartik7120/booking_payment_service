@@ -16,13 +16,20 @@ type Product struct {
 
 func (m *Payment_Service) Create_Product_Ticket(product Product) (*dodopayments.Product, error) {
 	// Create a product with the given name and price
+
+	log.Infof("Creating product with name: %s, price: %d", product.ProductName, product.Price)
+
 	p, err := m.Client.Products.New(context.Background(), dodopayments.ProductNewParams{
 		Price: dodopayments.F[dodopayments.PriceUnionParam](dodopayments.PriceOneTimePriceParam{
-			Currency: dodopayments.F(dodopayments.CurrencyInr),
-			Price:    dodopayments.F(product.Price),
+			Currency:              dodopayments.F(dodopayments.CurrencyInr),
+			Price:                 dodopayments.F(product.Price * 100), // Convert to paise as Dodo Payments expects price in the smallest denomination in the currency that is being used
+			Type:                  dodopayments.F(dodopayments.PriceOneTimePriceTypeOneTimePrice),
+			Discount:              dodopayments.Float(0),
+			PurchasingPowerParity: dodopayments.F(false),
 		}),
 		Name:        dodopayments.F(product.ProductName),
 		Description: dodopayments.F(product.ProductDescription),
+		TaxCategory: dodopayments.F(dodopayments.TaxCategoryDigitalProducts),
 	})
 
 	if err != nil {
