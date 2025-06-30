@@ -71,23 +71,38 @@ message CreateCheckoutSessionResponse {
     string message = 3;
 }
 
+message ProductBookedSeats {
+    int32 BookedSeatID = 1;
+}
+
 message Create_Payment_Intent_INR_Request {
-    int32 quintity = 1;
+    // int32 quintity = 1;
+    reserved 1;
     reserved 2;
     string success_url = 3;
     Currency currency = 4;
-    int32 price = 5;
+    // int32 price = 5;
+    reserved 5;
     string phone_number = 6;
     string email = 7;
-    string name = 8;
+    // string name = 8;
+    reserved 8;
     string cancel_url = 9;
     string country = 10;
     string state = 11;
     string city = 12;
     int32 zipcode = 13;
     string street = 14;
-    string movieName = 15;
-    string movieID = 16;
+    // string movieName = 15;
+    reserved 15;
+    // string movieID = 16;
+    reserved 16;
+    // repeated int32 BookedSeatID = 17;
+    reserved 17;
+    repeated int32 seatMatrixIDs = 18;
+    int32 venue_id = 19;
+    int32 movie_time_slot_id = 20;
+    string customer_name = 21;
 }
 
 message Create_Payment_Intent_INR_Response {

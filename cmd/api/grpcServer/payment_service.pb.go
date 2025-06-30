@@ -503,30 +503,73 @@ func (x *CreateCheckoutSessionResponse) GetMessage() string {
 	return ""
 }
 
-type Create_Payment_Intent_INR_Request struct {
+type ProductBookedSeats struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Quintity      int32                  `protobuf:"varint,1,opt,name=quintity,proto3" json:"quintity,omitempty"`
-	SuccessUrl    string                 `protobuf:"bytes,3,opt,name=success_url,json=successUrl,proto3" json:"success_url,omitempty"`
-	Currency      Currency               `protobuf:"varint,4,opt,name=currency,proto3,enum=moviedb_service.Currency" json:"currency,omitempty"`
-	Price         int32                  `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`
-	PhoneNumber   string                 `protobuf:"bytes,6,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
-	Email         string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email,omitempty"`
-	Name          string                 `protobuf:"bytes,8,opt,name=name,proto3" json:"name,omitempty"`
-	CancelUrl     string                 `protobuf:"bytes,9,opt,name=cancel_url,json=cancelUrl,proto3" json:"cancel_url,omitempty"`
-	Country       string                 `protobuf:"bytes,10,opt,name=country,proto3" json:"country,omitempty"`
-	State         string                 `protobuf:"bytes,11,opt,name=state,proto3" json:"state,omitempty"`
-	City          string                 `protobuf:"bytes,12,opt,name=city,proto3" json:"city,omitempty"`
-	Zipcode       int32                  `protobuf:"varint,13,opt,name=zipcode,proto3" json:"zipcode,omitempty"`
-	Street        string                 `protobuf:"bytes,14,opt,name=street,proto3" json:"street,omitempty"`
-	MovieName     string                 `protobuf:"bytes,15,opt,name=movieName,proto3" json:"movieName,omitempty"`
-	MovieID       string                 `protobuf:"bytes,16,opt,name=movieID,proto3" json:"movieID,omitempty"`
+	BookedSeatID  int32                  `protobuf:"varint,1,opt,name=BookedSeatID,proto3" json:"BookedSeatID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
+func (x *ProductBookedSeats) Reset() {
+	*x = ProductBookedSeats{}
+	mi := &file_payment_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProductBookedSeats) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProductBookedSeats) ProtoMessage() {}
+
+func (x *ProductBookedSeats) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProductBookedSeats.ProtoReflect.Descriptor instead.
+func (*ProductBookedSeats) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ProductBookedSeats) GetBookedSeatID() int32 {
+	if x != nil {
+		return x.BookedSeatID
+	}
+	return 0
+}
+
+type Create_Payment_Intent_INR_Request struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	SuccessUrl      string                 `protobuf:"bytes,3,opt,name=success_url,json=successUrl,proto3" json:"success_url,omitempty"`
+	Currency        Currency               `protobuf:"varint,4,opt,name=currency,proto3,enum=moviedb_service.Currency" json:"currency,omitempty"`
+	PhoneNumber     string                 `protobuf:"bytes,6,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email           string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email,omitempty"`
+	CancelUrl       string                 `protobuf:"bytes,9,opt,name=cancel_url,json=cancelUrl,proto3" json:"cancel_url,omitempty"`
+	Country         string                 `protobuf:"bytes,10,opt,name=country,proto3" json:"country,omitempty"`
+	State           string                 `protobuf:"bytes,11,opt,name=state,proto3" json:"state,omitempty"`
+	City            string                 `protobuf:"bytes,12,opt,name=city,proto3" json:"city,omitempty"`
+	Zipcode         int32                  `protobuf:"varint,13,opt,name=zipcode,proto3" json:"zipcode,omitempty"`
+	Street          string                 `protobuf:"bytes,14,opt,name=street,proto3" json:"street,omitempty"`
+	SeatMatrixIDs   []int32                `protobuf:"varint,18,rep,packed,name=seatMatrixIDs,proto3" json:"seatMatrixIDs,omitempty"`
+	VenueId         int32                  `protobuf:"varint,19,opt,name=venue_id,json=venueId,proto3" json:"venue_id,omitempty"`
+	MovieTimeSlotId int32                  `protobuf:"varint,20,opt,name=movie_time_slot_id,json=movieTimeSlotId,proto3" json:"movie_time_slot_id,omitempty"`
+	CustomerName    string                 `protobuf:"bytes,21,opt,name=customer_name,json=customerName,proto3" json:"customer_name,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
 func (x *Create_Payment_Intent_INR_Request) Reset() {
 	*x = Create_Payment_Intent_INR_Request{}
-	mi := &file_payment_service_proto_msgTypes[4]
+	mi := &file_payment_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -538,7 +581,7 @@ func (x *Create_Payment_Intent_INR_Request) String() string {
 func (*Create_Payment_Intent_INR_Request) ProtoMessage() {}
 
 func (x *Create_Payment_Intent_INR_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_payment_service_proto_msgTypes[4]
+	mi := &file_payment_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -551,14 +594,7 @@ func (x *Create_Payment_Intent_INR_Request) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use Create_Payment_Intent_INR_Request.ProtoReflect.Descriptor instead.
 func (*Create_Payment_Intent_INR_Request) Descriptor() ([]byte, []int) {
-	return file_payment_service_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *Create_Payment_Intent_INR_Request) GetQuintity() int32 {
-	if x != nil {
-		return x.Quintity
-	}
-	return 0
+	return file_payment_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *Create_Payment_Intent_INR_Request) GetSuccessUrl() string {
@@ -575,13 +611,6 @@ func (x *Create_Payment_Intent_INR_Request) GetCurrency() Currency {
 	return Currency_INR
 }
 
-func (x *Create_Payment_Intent_INR_Request) GetPrice() int32 {
-	if x != nil {
-		return x.Price
-	}
-	return 0
-}
-
 func (x *Create_Payment_Intent_INR_Request) GetPhoneNumber() string {
 	if x != nil {
 		return x.PhoneNumber
@@ -592,13 +621,6 @@ func (x *Create_Payment_Intent_INR_Request) GetPhoneNumber() string {
 func (x *Create_Payment_Intent_INR_Request) GetEmail() string {
 	if x != nil {
 		return x.Email
-	}
-	return ""
-}
-
-func (x *Create_Payment_Intent_INR_Request) GetName() string {
-	if x != nil {
-		return x.Name
 	}
 	return ""
 }
@@ -645,16 +667,30 @@ func (x *Create_Payment_Intent_INR_Request) GetStreet() string {
 	return ""
 }
 
-func (x *Create_Payment_Intent_INR_Request) GetMovieName() string {
+func (x *Create_Payment_Intent_INR_Request) GetSeatMatrixIDs() []int32 {
 	if x != nil {
-		return x.MovieName
+		return x.SeatMatrixIDs
 	}
-	return ""
+	return nil
 }
 
-func (x *Create_Payment_Intent_INR_Request) GetMovieID() string {
+func (x *Create_Payment_Intent_INR_Request) GetVenueId() int32 {
 	if x != nil {
-		return x.MovieID
+		return x.VenueId
+	}
+	return 0
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetMovieTimeSlotId() int32 {
+	if x != nil {
+		return x.MovieTimeSlotId
+	}
+	return 0
+}
+
+func (x *Create_Payment_Intent_INR_Request) GetCustomerName() string {
+	if x != nil {
+		return x.CustomerName
 	}
 	return ""
 }
@@ -671,7 +707,7 @@ type Create_Payment_Intent_INR_Response struct {
 
 func (x *Create_Payment_Intent_INR_Response) Reset() {
 	*x = Create_Payment_Intent_INR_Response{}
-	mi := &file_payment_service_proto_msgTypes[5]
+	mi := &file_payment_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -683,7 +719,7 @@ func (x *Create_Payment_Intent_INR_Response) String() string {
 func (*Create_Payment_Intent_INR_Response) ProtoMessage() {}
 
 func (x *Create_Payment_Intent_INR_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_payment_service_proto_msgTypes[5]
+	mi := &file_payment_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -696,7 +732,7 @@ func (x *Create_Payment_Intent_INR_Response) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use Create_Payment_Intent_INR_Response.ProtoReflect.Descriptor instead.
 func (*Create_Payment_Intent_INR_Response) Descriptor() ([]byte, []int) {
-	return file_payment_service_proto_rawDescGZIP(), []int{5}
+	return file_payment_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Create_Payment_Intent_INR_Response) GetStatus() int32 {
@@ -754,16 +790,15 @@ const file_payment_service_proto_rawDesc = "" +
 	"\x1dCreateCheckoutSessionResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
-	"\amessage\x18\x03 \x01(\tR\amessage\"\xcd\x03\n" +
-	"!Create_Payment_Intent_INR_Request\x12\x1a\n" +
-	"\bquintity\x18\x01 \x01(\x05R\bquintity\x12\x1f\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\"8\n" +
+	"\x12ProductBookedSeats\x12\"\n" +
+	"\fBookedSeatID\x18\x01 \x01(\x05R\fBookedSeatID\"\x86\x04\n" +
+	"!Create_Payment_Intent_INR_Request\x12\x1f\n" +
 	"\vsuccess_url\x18\x03 \x01(\tR\n" +
 	"successUrl\x125\n" +
-	"\bcurrency\x18\x04 \x01(\x0e2\x19.moviedb_service.CurrencyR\bcurrency\x12\x14\n" +
-	"\x05price\x18\x05 \x01(\x05R\x05price\x12!\n" +
+	"\bcurrency\x18\x04 \x01(\x0e2\x19.moviedb_service.CurrencyR\bcurrency\x12!\n" +
 	"\fphone_number\x18\x06 \x01(\tR\vphoneNumber\x12\x14\n" +
-	"\x05email\x18\a \x01(\tR\x05email\x12\x12\n" +
-	"\x04name\x18\b \x01(\tR\x04name\x12\x1d\n" +
+	"\x05email\x18\a \x01(\tR\x05email\x12\x1d\n" +
 	"\n" +
 	"cancel_url\x18\t \x01(\tR\tcancelUrl\x12\x18\n" +
 	"\acountry\x18\n" +
@@ -771,9 +806,11 @@ const file_payment_service_proto_rawDesc = "" +
 	"\x05state\x18\v \x01(\tR\x05state\x12\x12\n" +
 	"\x04city\x18\f \x01(\tR\x04city\x12\x18\n" +
 	"\azipcode\x18\r \x01(\x05R\azipcode\x12\x16\n" +
-	"\x06street\x18\x0e \x01(\tR\x06street\x12\x1c\n" +
-	"\tmovieName\x18\x0f \x01(\tR\tmovieName\x12\x18\n" +
-	"\amovieID\x18\x10 \x01(\tR\amovieIDJ\x04\b\x02\x10\x03\"\x9b\x01\n" +
+	"\x06street\x18\x0e \x01(\tR\x06street\x12$\n" +
+	"\rseatMatrixIDs\x18\x12 \x03(\x05R\rseatMatrixIDs\x12\x19\n" +
+	"\bvenue_id\x18\x13 \x01(\x05R\avenueId\x12+\n" +
+	"\x12movie_time_slot_id\x18\x14 \x01(\x05R\x0fmovieTimeSlotId\x12#\n" +
+	"\rcustomer_name\x18\x15 \x01(\tR\fcustomerNameJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x05\x10\x06J\x04\b\b\x10\tJ\x04\b\x0f\x10\x10J\x04\b\x10\x10\x11J\x04\b\x11\x10\x12\"\x9b\x01\n" +
 	"\"Create_Payment_Intent_INR_Response\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
@@ -827,7 +864,7 @@ func file_payment_service_proto_rawDescGZIP() []byte {
 }
 
 var file_payment_service_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_payment_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_payment_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_payment_service_proto_goTypes = []any{
 	(Currency)(0),                              // 0: moviedb_service.Currency
 	(PaymentStatus)(0),                         // 1: moviedb_service.PaymentStatus
@@ -836,24 +873,25 @@ var file_payment_service_proto_goTypes = []any{
 	(*PaymentIntent)(nil),                      // 4: moviedb_service.PaymentIntent
 	(*CreateCheckoutSessionRequest)(nil),       // 5: moviedb_service.CreateCheckoutSessionRequest
 	(*CreateCheckoutSessionResponse)(nil),      // 6: moviedb_service.CreateCheckoutSessionResponse
-	(*Create_Payment_Intent_INR_Request)(nil),  // 7: moviedb_service.Create_Payment_Intent_INR_Request
-	(*Create_Payment_Intent_INR_Response)(nil), // 8: moviedb_service.Create_Payment_Intent_INR_Response
-	(*timestamp.Timestamp)(nil),                // 9: google.protobuf.Timestamp
+	(*ProductBookedSeats)(nil),                 // 7: moviedb_service.ProductBookedSeats
+	(*Create_Payment_Intent_INR_Request)(nil),  // 8: moviedb_service.Create_Payment_Intent_INR_Request
+	(*Create_Payment_Intent_INR_Response)(nil), // 9: moviedb_service.Create_Payment_Intent_INR_Response
+	(*timestamp.Timestamp)(nil),                // 10: google.protobuf.Timestamp
 }
 var file_payment_service_proto_depIdxs = []int32{
-	2, // 0: moviedb_service.CheckoutSessionLineItemParam.paymentType:type_name -> moviedb_service.PaymentType
-	9, // 1: moviedb_service.PaymentIntent.created:type_name -> google.protobuf.Timestamp
-	3, // 2: moviedb_service.CreateCheckoutSessionRequest.payment_items:type_name -> moviedb_service.CheckoutSessionLineItemParam
-	0, // 3: moviedb_service.Create_Payment_Intent_INR_Request.currency:type_name -> moviedb_service.Currency
-	5, // 4: moviedb_service.PaymentService.CreateCheckOutSession:input_type -> moviedb_service.CreateCheckoutSessionRequest
-	7, // 5: moviedb_service.PaymentService.CreatePaymentLink:input_type -> moviedb_service.Create_Payment_Intent_INR_Request
-	6, // 6: moviedb_service.PaymentService.CreateCheckOutSession:output_type -> moviedb_service.CreateCheckoutSessionResponse
-	8, // 7: moviedb_service.PaymentService.CreatePaymentLink:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	2,  // 0: moviedb_service.CheckoutSessionLineItemParam.paymentType:type_name -> moviedb_service.PaymentType
+	10, // 1: moviedb_service.PaymentIntent.created:type_name -> google.protobuf.Timestamp
+	3,  // 2: moviedb_service.CreateCheckoutSessionRequest.payment_items:type_name -> moviedb_service.CheckoutSessionLineItemParam
+	0,  // 3: moviedb_service.Create_Payment_Intent_INR_Request.currency:type_name -> moviedb_service.Currency
+	5,  // 4: moviedb_service.PaymentService.CreateCheckOutSession:input_type -> moviedb_service.CreateCheckoutSessionRequest
+	8,  // 5: moviedb_service.PaymentService.CreatePaymentLink:input_type -> moviedb_service.Create_Payment_Intent_INR_Request
+	6,  // 6: moviedb_service.PaymentService.CreateCheckOutSession:output_type -> moviedb_service.CreateCheckoutSessionResponse
+	9,  // 7: moviedb_service.PaymentService.CreatePaymentLink:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
+	6,  // [6:8] is the sub-list for method output_type
+	4,  // [4:6] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_payment_service_proto_init() }
@@ -867,7 +905,7 @@ func file_payment_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_payment_service_proto_rawDesc), len(file_payment_service_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

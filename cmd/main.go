@@ -22,8 +22,8 @@ func main() {
 		log.Error("Error loading .env file")
 		panic(err)
 	}
-
-	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+	// log.SetFormatter(&log.JSONFormatter{})
 	log.SetReportCaller(true)
 
 	lis, err := net.Listen("tcp", ":1104")

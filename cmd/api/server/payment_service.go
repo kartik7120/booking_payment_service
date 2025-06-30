@@ -15,19 +15,30 @@ type Payment_Service struct {
 	Validator *validator.Validate
 }
 
+type ProductBookedSeats struct {
+	BookedSeatsID uint   `json:"booked_seats_id" gorm:"not null"`
+	Quantity      uint   `json:"quantity" gorm:"not null;default:1"` // number of tickets booked
+	Price         uint   `json:"price" gorm:"not null"`              // price per ticket
+	SeatNumber    string `json:"seat_number" gorm:"not null"`        // seat number booked
+	MovieName     string `json:"movie_name" gorm:"not null"`         // name of the movie for which the seat is booked
+}
+
 type CreatePaymentIntentPayload struct {
-	Quantity    uint   `json:"quantity" validate:"required"`
-	Price       uint   `json:"price" validate:"required"`
+	Products []ProductBookedSeats `json:"product" validate:"required,dive,required"`
+	// Price       uint   `json:"price" validate:"required"` price will be given by fetching it from the booking_moviedb_service
 	Email       string `json:"email" validate:"required,email"`
 	PhoneNumber string `json:"phone_number" validate:"required"`
 	Name        string `json:"name" validate:"required"`
-	MovieName   string `json:"movie_name" validate:"required"`
-	Country     string `json:"country" validate:"required"`
-	State       string `json:"state" validate:"required"`
-	City        string `json:"city" validate:"required"`
-	Street      string `json:"street" validate:"required"`
-	Zipcode     string `json:"zipcode" validate:"required"`
+	// MovieName   string `json:"movie_name" validate:"required"` movie name will be given by fetching it from the booking_moviedb_service
+	Country string `json:"country" validate:"required"`
+	State   string `json:"state" validate:"required"`
+	City    string `json:"city" validate:"required"`
+	Street  string `json:"street" validate:"required"`
+	Zipcode string `json:"zipcode" validate:"required"`
 }
+
+// Need to create a webhook to handle payment success and failure events
+// and update the payment status in the database accordingly
 
 func (m *Payment_Service) Create_Checkout_Session(request *moviedb.CreateCheckoutSessionRequest) (int, error) {
 	// Create a ticket product
@@ -67,37 +78,57 @@ func (m *Payment_Service) Create_Checkout_Session(request *moviedb.CreateCheckou
 
 func (m *Payment_Service) Create_Payment_Intent_INR(payload CreatePaymentIntentPayload) (string, error) {
 
+	log.Infof("Email %s, Name: %s and phone_number: %s", payload.Email, payload.Name, payload.PhoneNumber)
+
 	customer, err := m.Create_Customer(payload.Email, payload.Name, payload.PhoneNumber)
 
 	if err != nil {
 		return "", err
 	}
 
-	Product, err := m.Create_Product_Ticket(Product{
-		ProductName:        payload.MovieName,
-		Price:              int64(payload.Price),
-		ProductDescription: fmt.Sprintf("Ticket for movie: %s", payload.MovieName),
-	})
+	var ProductArr []*dodopayments.Product
 
-	if err != nil {
-		return "", err
+	// Product, err := m.Create_Product_Ticket(Product{
+	// 	ProductName:        payload.MovieName,
+	// 	Price:              int64(payload.Price),
+	// 	ProductDescription: fmt.Sprintf("Ticket for movie: %s", payload.MovieName),
+	// })
+
+	// First check if these seats are already booked or exist in the database
+
+	for _, v := range payload.Products {
+
+		Product, err := m.Create_Product_Ticket(Product{
+			ProductName:        v.MovieName,
+			Price:              int64(v.Price),
+			ProductDescription: fmt.Sprintf("Ticket for movie: %s", v.MovieName),
+		})
+
+		log.Infof("Creating payment intent for product: %s with price: %d and quintity: %d", Product.ProductID, v.Price, v.Quantity)
+
+		if err != nil {
+			log.Error("Failed to create product: ", err)
+			return "", fmt.Errorf("failed to create product: %w", err)
+		}
+
+		ProductArr = append(ProductArr, Product)
 	}
 
-	log.Infof("Creating payment intent for product: %s with price: %d and quintity: %d", Product.ProductID, payload.Price, payload.Quantity)
+	ProductCartItems := make([]dodopayments.OneTimeProductCartItemParam, len(ProductArr))
+
+	for i, product := range ProductArr {
+		ProductCartItems[i] = dodopayments.OneTimeProductCartItemParam{
+			ProductID: dodopayments.F(product.ProductID),
+			Quantity:  dodopayments.F(int64(1)), // Assuming quantity is always 1 for each product
+		}
+	}
 
 	dodopayments.NewWebhookEventService()
 	payment, err := m.Client.Payments.New(
 		context.TODO(),
 		dodopayments.PaymentNewParams{
 			PaymentLink: dodopayments.F(true),
-			ProductCart: dodopayments.F(
-				[]dodopayments.OneTimeProductCartItemParam{
-					{
-						Quantity:  dodopayments.F(int64(payload.Quantity)),
-						ProductID: dodopayments.F(Product.ProductID), // Replace with actual product ID
-					},
-				},
-			),
+			ProductCart: dodopayments.F(ProductCartItems),
 			Billing: dodopayments.F(
 				dodopayments.BillingAddressParam{
 					Country: dodopayments.F(dodopayments.CountryCodeIn),
@@ -114,6 +145,8 @@ func (m *Payment_Service) Create_Payment_Intent_INR(payload CreatePaymentIntentP
 			BillingCurrency: dodopayments.F(dodopayments.CurrencyInr),
 		},
 	)
+
+	// confimation of the booked seats will be handled by the webhooks
 
 	if err != nil {
 		log.Error("Failed to create payment intent: ", err)
