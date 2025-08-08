@@ -105,6 +105,22 @@ message Create_Payment_Intent_INR_Request {
     string customer_name = 21;
 }
 
+message IsValidIdempotentKeyRequest {
+    string idempotent_key = 1;
+}
+
+message IsValidIdempotentKeyResponse {
+    bool is_valid = 1;
+    string error = 2;
+    string message = 3;
+}
+
+message CommitIdempotentKeyRequest {
+    string idempotent_key = 1;
+    string customer_id = 2;
+    repeated string orderIds = 3;
+}
+
 message Create_Payment_Intent_INR_Response {
     int32 status = 1;
     string error = 2;
@@ -114,7 +130,69 @@ message Create_Payment_Intent_INR_Response {
     string payment_link = 6;
 }
 
+message Order {
+    string product_name = 1;
+    int32 product_price = 2;
+    string product_description = 3;
+}
+
+message Create_Order_Request {
+    reserved 1;
+    reserved 2;
+    reserved 3;
+    // repeated Order orders = 4;
+    reserved 4;
+    string idempotent_key = 5;
+    repeated int32 seatMatrixIDs = 6;
+    int32 venue_id = 7;
+    int32 movie_time_slot_id = 8;
+}
+
+message Create_Order_Response {
+    int32 status = 1;
+    string error = 2;
+    string message = 3;
+    repeated string order_id = 4;
+}
+
+message CreateCustomerRequest {
+    string customer_name = 1;
+    string phone_number = 2;
+    string email = 3;
+    string country = 4;
+    string state = 5;
+    string city = 6;
+    int32 zipcode = 7;
+    string street = 8;
+    string idempotent_key = 9;
+}
+
+message CreateCustomerResponse {
+    int32 status = 1;
+    string error = 2;
+    string message = 3;
+    string customer_id = 4;
+}
+
+message CreatePaymentLinkRequest {
+    string idempotent_key = 1;
+}
+
+message CreatePaymentLinkResponse {
+    int32 status = 1;
+    string error = 2;
+    string message = 3;
+    string payment_link = 4;
+}
+
 service PaymentService {
     rpc CreateCheckOutSession(CreateCheckoutSessionRequest) returns (CreateCheckoutSessionResponse);
     rpc CreatePaymentLink(Create_Payment_Intent_INR_Request) returns (Create_Payment_Intent_INR_Response);
+    rpc IsValidIdempotentKey(IsValidIdempotentKeyRequest) returns (IsValidIdempotentKeyResponse);
+    rpc CommitIdempotentKey(CommitIdempotentKeyRequest) returns (Create_Payment_Intent_INR_Response);
+    rpc CreateOrder(Create_Order_Request) returns (Create_Order_Response);
+    rpc CommitCustomerID(CommitIdempotentKeyRequest) returns (Create_Payment_Intent_INR_Response);
+    rpc CommitOrderIds(CommitIdempotentKeyRequest) returns (Create_Payment_Intent_INR_Response);
+    rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse);
+    rpc GeneratePaymentLink(CreatePaymentLinkRequest) returns (CreatePaymentLinkResponse);
 }

@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (m *Payment_Service) Create_Customer(email string, name string, phone_number string) (*dodopayments.Customer, error) {
+func (m *Payment_Service) Create_Customer(email string, name string, phone_number string, idempotent_key string) (*dodopayments.Customer, error) {
 
 	// Validate the input parameters
 
@@ -37,6 +37,21 @@ func (m *Payment_Service) Create_Customer(email string, name string, phone_numbe
 		PhoneNumber: dodopayments.F(phone_number), // Replace with actual phone number
 		Name:        dodopayments.F(name),         // Replace with actual customer name
 	})
+
+	// Commit customer details with idempotent key
+
+	if idempotent_key != "" {
+		err := m.CommitCustomerPaymentSession(idempotent_key, customer.CustomerID)
+
+		if err != nil {
+			log.Error("Failed to commit customer ID with idempotent key: ", err)
+			return nil, err
+		}
+	} else {
+		// Return an error if idempotent key is not provided
+		log.Error("Idempotent key is required for committing customer details")
+		return nil, errors.New("idempotent key is required for committing customer details")
+	}
 
 	if err != nil {
 		log.Error("Failed to create customer: ", err)

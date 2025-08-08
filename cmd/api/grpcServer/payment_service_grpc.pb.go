@@ -21,6 +21,13 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	PaymentService_CreateCheckOutSession_FullMethodName = "/moviedb_service.PaymentService/CreateCheckOutSession"
 	PaymentService_CreatePaymentLink_FullMethodName     = "/moviedb_service.PaymentService/CreatePaymentLink"
+	PaymentService_IsValidIdempotentKey_FullMethodName  = "/moviedb_service.PaymentService/IsValidIdempotentKey"
+	PaymentService_CommitIdempotentKey_FullMethodName   = "/moviedb_service.PaymentService/CommitIdempotentKey"
+	PaymentService_CreateOrder_FullMethodName           = "/moviedb_service.PaymentService/CreateOrder"
+	PaymentService_CommitCustomerID_FullMethodName      = "/moviedb_service.PaymentService/CommitCustomerID"
+	PaymentService_CommitOrderIds_FullMethodName        = "/moviedb_service.PaymentService/CommitOrderIds"
+	PaymentService_CreateCustomer_FullMethodName        = "/moviedb_service.PaymentService/CreateCustomer"
+	PaymentService_GeneratePaymentLink_FullMethodName   = "/moviedb_service.PaymentService/GeneratePaymentLink"
 )
 
 // PaymentServiceClient is the client API for PaymentService service.
@@ -29,6 +36,13 @@ const (
 type PaymentServiceClient interface {
 	CreateCheckOutSession(ctx context.Context, in *CreateCheckoutSessionRequest, opts ...grpc.CallOption) (*CreateCheckoutSessionResponse, error)
 	CreatePaymentLink(ctx context.Context, in *Create_Payment_Intent_INR_Request, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error)
+	IsValidIdempotentKey(ctx context.Context, in *IsValidIdempotentKeyRequest, opts ...grpc.CallOption) (*IsValidIdempotentKeyResponse, error)
+	CommitIdempotentKey(ctx context.Context, in *CommitIdempotentKeyRequest, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error)
+	CreateOrder(ctx context.Context, in *Create_Order_Request, opts ...grpc.CallOption) (*Create_Order_Response, error)
+	CommitCustomerID(ctx context.Context, in *CommitIdempotentKeyRequest, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error)
+	CommitOrderIds(ctx context.Context, in *CommitIdempotentKeyRequest, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error)
+	CreateCustomer(ctx context.Context, in *CreateCustomerRequest, opts ...grpc.CallOption) (*CreateCustomerResponse, error)
+	GeneratePaymentLink(ctx context.Context, in *CreatePaymentLinkRequest, opts ...grpc.CallOption) (*CreatePaymentLinkResponse, error)
 }
 
 type paymentServiceClient struct {
@@ -59,12 +73,89 @@ func (c *paymentServiceClient) CreatePaymentLink(ctx context.Context, in *Create
 	return out, nil
 }
 
+func (c *paymentServiceClient) IsValidIdempotentKey(ctx context.Context, in *IsValidIdempotentKeyRequest, opts ...grpc.CallOption) (*IsValidIdempotentKeyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IsValidIdempotentKeyResponse)
+	err := c.cc.Invoke(ctx, PaymentService_IsValidIdempotentKey_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) CommitIdempotentKey(ctx context.Context, in *CommitIdempotentKeyRequest, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Create_Payment_Intent_INR_Response)
+	err := c.cc.Invoke(ctx, PaymentService_CommitIdempotentKey_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) CreateOrder(ctx context.Context, in *Create_Order_Request, opts ...grpc.CallOption) (*Create_Order_Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Create_Order_Response)
+	err := c.cc.Invoke(ctx, PaymentService_CreateOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) CommitCustomerID(ctx context.Context, in *CommitIdempotentKeyRequest, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Create_Payment_Intent_INR_Response)
+	err := c.cc.Invoke(ctx, PaymentService_CommitCustomerID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) CommitOrderIds(ctx context.Context, in *CommitIdempotentKeyRequest, opts ...grpc.CallOption) (*Create_Payment_Intent_INR_Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Create_Payment_Intent_INR_Response)
+	err := c.cc.Invoke(ctx, PaymentService_CommitOrderIds_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) CreateCustomer(ctx context.Context, in *CreateCustomerRequest, opts ...grpc.CallOption) (*CreateCustomerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateCustomerResponse)
+	err := c.cc.Invoke(ctx, PaymentService_CreateCustomer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) GeneratePaymentLink(ctx context.Context, in *CreatePaymentLinkRequest, opts ...grpc.CallOption) (*CreatePaymentLinkResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreatePaymentLinkResponse)
+	err := c.cc.Invoke(ctx, PaymentService_GeneratePaymentLink_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PaymentServiceServer is the server API for PaymentService service.
 // All implementations must embed UnimplementedPaymentServiceServer
 // for forward compatibility.
 type PaymentServiceServer interface {
 	CreateCheckOutSession(context.Context, *CreateCheckoutSessionRequest) (*CreateCheckoutSessionResponse, error)
 	CreatePaymentLink(context.Context, *Create_Payment_Intent_INR_Request) (*Create_Payment_Intent_INR_Response, error)
+	IsValidIdempotentKey(context.Context, *IsValidIdempotentKeyRequest) (*IsValidIdempotentKeyResponse, error)
+	CommitIdempotentKey(context.Context, *CommitIdempotentKeyRequest) (*Create_Payment_Intent_INR_Response, error)
+	CreateOrder(context.Context, *Create_Order_Request) (*Create_Order_Response, error)
+	CommitCustomerID(context.Context, *CommitIdempotentKeyRequest) (*Create_Payment_Intent_INR_Response, error)
+	CommitOrderIds(context.Context, *CommitIdempotentKeyRequest) (*Create_Payment_Intent_INR_Response, error)
+	CreateCustomer(context.Context, *CreateCustomerRequest) (*CreateCustomerResponse, error)
+	GeneratePaymentLink(context.Context, *CreatePaymentLinkRequest) (*CreatePaymentLinkResponse, error)
 	mustEmbedUnimplementedPaymentServiceServer()
 }
 
@@ -80,6 +171,27 @@ func (UnimplementedPaymentServiceServer) CreateCheckOutSession(context.Context, 
 }
 func (UnimplementedPaymentServiceServer) CreatePaymentLink(context.Context, *Create_Payment_Intent_INR_Request) (*Create_Payment_Intent_INR_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePaymentLink not implemented")
+}
+func (UnimplementedPaymentServiceServer) IsValidIdempotentKey(context.Context, *IsValidIdempotentKeyRequest) (*IsValidIdempotentKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsValidIdempotentKey not implemented")
+}
+func (UnimplementedPaymentServiceServer) CommitIdempotentKey(context.Context, *CommitIdempotentKeyRequest) (*Create_Payment_Intent_INR_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommitIdempotentKey not implemented")
+}
+func (UnimplementedPaymentServiceServer) CreateOrder(context.Context, *Create_Order_Request) (*Create_Order_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
+}
+func (UnimplementedPaymentServiceServer) CommitCustomerID(context.Context, *CommitIdempotentKeyRequest) (*Create_Payment_Intent_INR_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommitCustomerID not implemented")
+}
+func (UnimplementedPaymentServiceServer) CommitOrderIds(context.Context, *CommitIdempotentKeyRequest) (*Create_Payment_Intent_INR_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommitOrderIds not implemented")
+}
+func (UnimplementedPaymentServiceServer) CreateCustomer(context.Context, *CreateCustomerRequest) (*CreateCustomerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCustomer not implemented")
+}
+func (UnimplementedPaymentServiceServer) GeneratePaymentLink(context.Context, *CreatePaymentLinkRequest) (*CreatePaymentLinkResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GeneratePaymentLink not implemented")
 }
 func (UnimplementedPaymentServiceServer) mustEmbedUnimplementedPaymentServiceServer() {}
 func (UnimplementedPaymentServiceServer) testEmbeddedByValue()                        {}
@@ -138,6 +250,132 @@ func _PaymentService_CreatePaymentLink_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PaymentService_IsValidIdempotentKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsValidIdempotentKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).IsValidIdempotentKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_IsValidIdempotentKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).IsValidIdempotentKey(ctx, req.(*IsValidIdempotentKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_CommitIdempotentKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommitIdempotentKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).CommitIdempotentKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_CommitIdempotentKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).CommitIdempotentKey(ctx, req.(*CommitIdempotentKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Create_Order_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).CreateOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_CreateOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).CreateOrder(ctx, req.(*Create_Order_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_CommitCustomerID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommitIdempotentKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).CommitCustomerID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_CommitCustomerID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).CommitCustomerID(ctx, req.(*CommitIdempotentKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_CommitOrderIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommitIdempotentKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).CommitOrderIds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_CommitOrderIds_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).CommitOrderIds(ctx, req.(*CommitIdempotentKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_CreateCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCustomerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).CreateCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_CreateCustomer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).CreateCustomer(ctx, req.(*CreateCustomerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_GeneratePaymentLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePaymentLinkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).GeneratePaymentLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PaymentService_GeneratePaymentLink_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).GeneratePaymentLink(ctx, req.(*CreatePaymentLinkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PaymentService_ServiceDesc is the grpc.ServiceDesc for PaymentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +390,34 @@ var PaymentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreatePaymentLink",
 			Handler:    _PaymentService_CreatePaymentLink_Handler,
+		},
+		{
+			MethodName: "IsValidIdempotentKey",
+			Handler:    _PaymentService_IsValidIdempotentKey_Handler,
+		},
+		{
+			MethodName: "CommitIdempotentKey",
+			Handler:    _PaymentService_CommitIdempotentKey_Handler,
+		},
+		{
+			MethodName: "CreateOrder",
+			Handler:    _PaymentService_CreateOrder_Handler,
+		},
+		{
+			MethodName: "CommitCustomerID",
+			Handler:    _PaymentService_CommitCustomerID_Handler,
+		},
+		{
+			MethodName: "CommitOrderIds",
+			Handler:    _PaymentService_CommitOrderIds_Handler,
+		},
+		{
+			MethodName: "CreateCustomer",
+			Handler:    _PaymentService_CreateCustomer_Handler,
+		},
+		{
+			MethodName: "GeneratePaymentLink",
+			Handler:    _PaymentService_GeneratePaymentLink_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

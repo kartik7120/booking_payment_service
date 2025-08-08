@@ -695,6 +695,170 @@ func (x *Create_Payment_Intent_INR_Request) GetCustomerName() string {
 	return ""
 }
 
+type IsValidIdempotentKeyRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IdempotentKey string                 `protobuf:"bytes,1,opt,name=idempotent_key,json=idempotentKey,proto3" json:"idempotent_key,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IsValidIdempotentKeyRequest) Reset() {
+	*x = IsValidIdempotentKeyRequest{}
+	mi := &file_payment_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IsValidIdempotentKeyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IsValidIdempotentKeyRequest) ProtoMessage() {}
+
+func (x *IsValidIdempotentKeyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IsValidIdempotentKeyRequest.ProtoReflect.Descriptor instead.
+func (*IsValidIdempotentKeyRequest) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *IsValidIdempotentKeyRequest) GetIdempotentKey() string {
+	if x != nil {
+		return x.IdempotentKey
+	}
+	return ""
+}
+
+type IsValidIdempotentKeyResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IsValid       bool                   `protobuf:"varint,1,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IsValidIdempotentKeyResponse) Reset() {
+	*x = IsValidIdempotentKeyResponse{}
+	mi := &file_payment_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IsValidIdempotentKeyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IsValidIdempotentKeyResponse) ProtoMessage() {}
+
+func (x *IsValidIdempotentKeyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IsValidIdempotentKeyResponse.ProtoReflect.Descriptor instead.
+func (*IsValidIdempotentKeyResponse) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *IsValidIdempotentKeyResponse) GetIsValid() bool {
+	if x != nil {
+		return x.IsValid
+	}
+	return false
+}
+
+func (x *IsValidIdempotentKeyResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+func (x *IsValidIdempotentKeyResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type CommitIdempotentKeyRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IdempotentKey string                 `protobuf:"bytes,1,opt,name=idempotent_key,json=idempotentKey,proto3" json:"idempotent_key,omitempty"`
+	CustomerId    string                 `protobuf:"bytes,2,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	OrderIds      []string               `protobuf:"bytes,3,rep,name=orderIds,proto3" json:"orderIds,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CommitIdempotentKeyRequest) Reset() {
+	*x = CommitIdempotentKeyRequest{}
+	mi := &file_payment_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CommitIdempotentKeyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CommitIdempotentKeyRequest) ProtoMessage() {}
+
+func (x *CommitIdempotentKeyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CommitIdempotentKeyRequest.ProtoReflect.Descriptor instead.
+func (*CommitIdempotentKeyRequest) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CommitIdempotentKeyRequest) GetIdempotentKey() string {
+	if x != nil {
+		return x.IdempotentKey
+	}
+	return ""
+}
+
+func (x *CommitIdempotentKeyRequest) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+func (x *CommitIdempotentKeyRequest) GetOrderIds() []string {
+	if x != nil {
+		return x.OrderIds
+	}
+	return nil
+}
+
 type Create_Payment_Intent_INR_Response struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
@@ -707,7 +871,7 @@ type Create_Payment_Intent_INR_Response struct {
 
 func (x *Create_Payment_Intent_INR_Response) Reset() {
 	*x = Create_Payment_Intent_INR_Response{}
-	mi := &file_payment_service_proto_msgTypes[6]
+	mi := &file_payment_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -719,7 +883,7 @@ func (x *Create_Payment_Intent_INR_Response) String() string {
 func (*Create_Payment_Intent_INR_Response) ProtoMessage() {}
 
 func (x *Create_Payment_Intent_INR_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_payment_service_proto_msgTypes[6]
+	mi := &file_payment_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -732,7 +896,7 @@ func (x *Create_Payment_Intent_INR_Response) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use Create_Payment_Intent_INR_Response.ProtoReflect.Descriptor instead.
 func (*Create_Payment_Intent_INR_Response) Descriptor() ([]byte, []int) {
-	return file_payment_service_proto_rawDescGZIP(), []int{6}
+	return file_payment_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *Create_Payment_Intent_INR_Response) GetStatus() int32 {
@@ -757,6 +921,490 @@ func (x *Create_Payment_Intent_INR_Response) GetMessage() string {
 }
 
 func (x *Create_Payment_Intent_INR_Response) GetPaymentLink() string {
+	if x != nil {
+		return x.PaymentLink
+	}
+	return ""
+}
+
+type Order struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	ProductName        string                 `protobuf:"bytes,1,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	ProductPrice       int32                  `protobuf:"varint,2,opt,name=product_price,json=productPrice,proto3" json:"product_price,omitempty"`
+	ProductDescription string                 `protobuf:"bytes,3,opt,name=product_description,json=productDescription,proto3" json:"product_description,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *Order) Reset() {
+	*x = Order{}
+	mi := &file_payment_service_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Order) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Order) ProtoMessage() {}
+
+func (x *Order) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Order.ProtoReflect.Descriptor instead.
+func (*Order) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *Order) GetProductName() string {
+	if x != nil {
+		return x.ProductName
+	}
+	return ""
+}
+
+func (x *Order) GetProductPrice() int32 {
+	if x != nil {
+		return x.ProductPrice
+	}
+	return 0
+}
+
+func (x *Order) GetProductDescription() string {
+	if x != nil {
+		return x.ProductDescription
+	}
+	return ""
+}
+
+type Create_Order_Request struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	IdempotentKey   string                 `protobuf:"bytes,5,opt,name=idempotent_key,json=idempotentKey,proto3" json:"idempotent_key,omitempty"`
+	SeatMatrixIDs   []int32                `protobuf:"varint,6,rep,packed,name=seatMatrixIDs,proto3" json:"seatMatrixIDs,omitempty"`
+	VenueId         int32                  `protobuf:"varint,7,opt,name=venue_id,json=venueId,proto3" json:"venue_id,omitempty"`
+	MovieTimeSlotId int32                  `protobuf:"varint,8,opt,name=movie_time_slot_id,json=movieTimeSlotId,proto3" json:"movie_time_slot_id,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *Create_Order_Request) Reset() {
+	*x = Create_Order_Request{}
+	mi := &file_payment_service_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Create_Order_Request) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Create_Order_Request) ProtoMessage() {}
+
+func (x *Create_Order_Request) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Create_Order_Request.ProtoReflect.Descriptor instead.
+func (*Create_Order_Request) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *Create_Order_Request) GetIdempotentKey() string {
+	if x != nil {
+		return x.IdempotentKey
+	}
+	return ""
+}
+
+func (x *Create_Order_Request) GetSeatMatrixIDs() []int32 {
+	if x != nil {
+		return x.SeatMatrixIDs
+	}
+	return nil
+}
+
+func (x *Create_Order_Request) GetVenueId() int32 {
+	if x != nil {
+		return x.VenueId
+	}
+	return 0
+}
+
+func (x *Create_Order_Request) GetMovieTimeSlotId() int32 {
+	if x != nil {
+		return x.MovieTimeSlotId
+	}
+	return 0
+}
+
+type Create_Order_Response struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	OrderId       []string               `protobuf:"bytes,4,rep,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Create_Order_Response) Reset() {
+	*x = Create_Order_Response{}
+	mi := &file_payment_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Create_Order_Response) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Create_Order_Response) ProtoMessage() {}
+
+func (x *Create_Order_Response) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Create_Order_Response.ProtoReflect.Descriptor instead.
+func (*Create_Order_Response) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *Create_Order_Response) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *Create_Order_Response) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+func (x *Create_Order_Response) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *Create_Order_Response) GetOrderId() []string {
+	if x != nil {
+		return x.OrderId
+	}
+	return nil
+}
+
+type CreateCustomerRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CustomerName  string                 `protobuf:"bytes,1,opt,name=customer_name,json=customerName,proto3" json:"customer_name,omitempty"`
+	PhoneNumber   string                 `protobuf:"bytes,2,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Country       string                 `protobuf:"bytes,4,opt,name=country,proto3" json:"country,omitempty"`
+	State         string                 `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty"`
+	City          string                 `protobuf:"bytes,6,opt,name=city,proto3" json:"city,omitempty"`
+	Zipcode       int32                  `protobuf:"varint,7,opt,name=zipcode,proto3" json:"zipcode,omitempty"`
+	Street        string                 `protobuf:"bytes,8,opt,name=street,proto3" json:"street,omitempty"`
+	IdempotentKey string                 `protobuf:"bytes,9,opt,name=idempotent_key,json=idempotentKey,proto3" json:"idempotent_key,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCustomerRequest) Reset() {
+	*x = CreateCustomerRequest{}
+	mi := &file_payment_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCustomerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCustomerRequest) ProtoMessage() {}
+
+func (x *CreateCustomerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCustomerRequest.ProtoReflect.Descriptor instead.
+func (*CreateCustomerRequest) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *CreateCustomerRequest) GetCustomerName() string {
+	if x != nil {
+		return x.CustomerName
+	}
+	return ""
+}
+
+func (x *CreateCustomerRequest) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *CreateCustomerRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *CreateCustomerRequest) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
+}
+
+func (x *CreateCustomerRequest) GetState() string {
+	if x != nil {
+		return x.State
+	}
+	return ""
+}
+
+func (x *CreateCustomerRequest) GetCity() string {
+	if x != nil {
+		return x.City
+	}
+	return ""
+}
+
+func (x *CreateCustomerRequest) GetZipcode() int32 {
+	if x != nil {
+		return x.Zipcode
+	}
+	return 0
+}
+
+func (x *CreateCustomerRequest) GetStreet() string {
+	if x != nil {
+		return x.Street
+	}
+	return ""
+}
+
+func (x *CreateCustomerRequest) GetIdempotentKey() string {
+	if x != nil {
+		return x.IdempotentKey
+	}
+	return ""
+}
+
+type CreateCustomerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	CustomerId    string                 `protobuf:"bytes,4,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCustomerResponse) Reset() {
+	*x = CreateCustomerResponse{}
+	mi := &file_payment_service_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCustomerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCustomerResponse) ProtoMessage() {}
+
+func (x *CreateCustomerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCustomerResponse.ProtoReflect.Descriptor instead.
+func (*CreateCustomerResponse) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *CreateCustomerResponse) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *CreateCustomerResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+func (x *CreateCustomerResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CreateCustomerResponse) GetCustomerId() string {
+	if x != nil {
+		return x.CustomerId
+	}
+	return ""
+}
+
+type CreatePaymentLinkRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IdempotentKey string                 `protobuf:"bytes,1,opt,name=idempotent_key,json=idempotentKey,proto3" json:"idempotent_key,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreatePaymentLinkRequest) Reset() {
+	*x = CreatePaymentLinkRequest{}
+	mi := &file_payment_service_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreatePaymentLinkRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreatePaymentLinkRequest) ProtoMessage() {}
+
+func (x *CreatePaymentLinkRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreatePaymentLinkRequest.ProtoReflect.Descriptor instead.
+func (*CreatePaymentLinkRequest) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *CreatePaymentLinkRequest) GetIdempotentKey() string {
+	if x != nil {
+		return x.IdempotentKey
+	}
+	return ""
+}
+
+type CreatePaymentLinkResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	PaymentLink   string                 `protobuf:"bytes,4,opt,name=payment_link,json=paymentLink,proto3" json:"payment_link,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreatePaymentLinkResponse) Reset() {
+	*x = CreatePaymentLinkResponse{}
+	mi := &file_payment_service_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreatePaymentLinkResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreatePaymentLinkResponse) ProtoMessage() {}
+
+func (x *CreatePaymentLinkResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_payment_service_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreatePaymentLinkResponse.ProtoReflect.Descriptor instead.
+func (*CreatePaymentLinkResponse) Descriptor() ([]byte, []int) {
+	return file_payment_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *CreatePaymentLinkResponse) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *CreatePaymentLinkResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+func (x *CreatePaymentLinkResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CreatePaymentLinkResponse) GetPaymentLink() string {
 	if x != nil {
 		return x.PaymentLink
 	}
@@ -810,12 +1458,60 @@ const file_payment_service_proto_rawDesc = "" +
 	"\rseatMatrixIDs\x18\x12 \x03(\x05R\rseatMatrixIDs\x12\x19\n" +
 	"\bvenue_id\x18\x13 \x01(\x05R\avenueId\x12+\n" +
 	"\x12movie_time_slot_id\x18\x14 \x01(\x05R\x0fmovieTimeSlotId\x12#\n" +
-	"\rcustomer_name\x18\x15 \x01(\tR\fcustomerNameJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x05\x10\x06J\x04\b\b\x10\tJ\x04\b\x0f\x10\x10J\x04\b\x10\x10\x11J\x04\b\x11\x10\x12\"\x9b\x01\n" +
+	"\rcustomer_name\x18\x15 \x01(\tR\fcustomerNameJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x05\x10\x06J\x04\b\b\x10\tJ\x04\b\x0f\x10\x10J\x04\b\x10\x10\x11J\x04\b\x11\x10\x12\"D\n" +
+	"\x1bIsValidIdempotentKeyRequest\x12%\n" +
+	"\x0eidempotent_key\x18\x01 \x01(\tR\ridempotentKey\"i\n" +
+	"\x1cIsValidIdempotentKeyResponse\x12\x19\n" +
+	"\bis_valid\x18\x01 \x01(\bR\aisValid\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\"\x80\x01\n" +
+	"\x1aCommitIdempotentKeyRequest\x12%\n" +
+	"\x0eidempotent_key\x18\x01 \x01(\tR\ridempotentKey\x12\x1f\n" +
+	"\vcustomer_id\x18\x02 \x01(\tR\n" +
+	"customerId\x12\x1a\n" +
+	"\borderIds\x18\x03 \x03(\tR\borderIds\"\x9b\x01\n" +
 	"\"Create_Payment_Intent_INR_Response\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x12!\n" +
-	"\fpayment_link\x18\x06 \x01(\tR\vpaymentLinkJ\x04\b\x04\x10\x05J\x04\b\x05\x10\x06*\xd0\x01\n" +
+	"\fpayment_link\x18\x06 \x01(\tR\vpaymentLinkJ\x04\b\x04\x10\x05J\x04\b\x05\x10\x06\"\x80\x01\n" +
+	"\x05Order\x12!\n" +
+	"\fproduct_name\x18\x01 \x01(\tR\vproductName\x12#\n" +
+	"\rproduct_price\x18\x02 \x01(\x05R\fproductPrice\x12/\n" +
+	"\x13product_description\x18\x03 \x01(\tR\x12productDescription\"\xc3\x01\n" +
+	"\x14Create_Order_Request\x12%\n" +
+	"\x0eidempotent_key\x18\x05 \x01(\tR\ridempotentKey\x12$\n" +
+	"\rseatMatrixIDs\x18\x06 \x03(\x05R\rseatMatrixIDs\x12\x19\n" +
+	"\bvenue_id\x18\a \x01(\x05R\avenueId\x12+\n" +
+	"\x12movie_time_slot_id\x18\b \x01(\x05R\x0fmovieTimeSlotIdJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05\"z\n" +
+	"\x15Create_Order_Response\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x12\x19\n" +
+	"\border_id\x18\x04 \x03(\tR\aorderId\"\x92\x02\n" +
+	"\x15CreateCustomerRequest\x12#\n" +
+	"\rcustomer_name\x18\x01 \x01(\tR\fcustomerName\x12!\n" +
+	"\fphone_number\x18\x02 \x01(\tR\vphoneNumber\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x18\n" +
+	"\acountry\x18\x04 \x01(\tR\acountry\x12\x14\n" +
+	"\x05state\x18\x05 \x01(\tR\x05state\x12\x12\n" +
+	"\x04city\x18\x06 \x01(\tR\x04city\x12\x18\n" +
+	"\azipcode\x18\a \x01(\x05R\azipcode\x12\x16\n" +
+	"\x06street\x18\b \x01(\tR\x06street\x12%\n" +
+	"\x0eidempotent_key\x18\t \x01(\tR\ridempotentKey\"\x81\x01\n" +
+	"\x16CreateCustomerResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x12\x1f\n" +
+	"\vcustomer_id\x18\x04 \x01(\tR\n" +
+	"customerId\"A\n" +
+	"\x18CreatePaymentLinkRequest\x12%\n" +
+	"\x0eidempotent_key\x18\x01 \x01(\tR\ridempotentKey\"\x86\x01\n" +
+	"\x19CreatePaymentLinkResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x12!\n" +
+	"\fpayment_link\x18\x04 \x01(\tR\vpaymentLink*\xd0\x01\n" +
 	"\bCurrency\x12\a\n" +
 	"\x03INR\x10\x00\x12\a\n" +
 	"\x03USD\x10\x01\x12\a\n" +
@@ -846,10 +1542,17 @@ const file_payment_service_proto_rawDesc = "" +
 	"\x15PAYMENT_STATUS_FAILED\x10\x02*,\n" +
 	"\vPaymentType\x12\x12\n" +
 	"\x0eTICKET_BOOKING\x10\x00\x12\t\n" +
-	"\x05MEALS\x10\x012\x86\x02\n" +
+	"\x05MEALS\x10\x012\x8d\b\n" +
 	"\x0ePaymentService\x12v\n" +
 	"\x15CreateCheckOutSession\x12-.moviedb_service.CreateCheckoutSessionRequest\x1a..moviedb_service.CreateCheckoutSessionResponse\x12|\n" +
-	"\x11CreatePaymentLink\x122.moviedb_service.Create_Payment_Intent_INR_Request\x1a3.moviedb_service.Create_Payment_Intent_INR_ResponseBNZLgithub.com/kartik7120/booking_payment_service/cmd/grpcServer;payment_serviceb\x06proto3"
+	"\x11CreatePaymentLink\x122.moviedb_service.Create_Payment_Intent_INR_Request\x1a3.moviedb_service.Create_Payment_Intent_INR_Response\x12s\n" +
+	"\x14IsValidIdempotentKey\x12,.moviedb_service.IsValidIdempotentKeyRequest\x1a-.moviedb_service.IsValidIdempotentKeyResponse\x12w\n" +
+	"\x13CommitIdempotentKey\x12+.moviedb_service.CommitIdempotentKeyRequest\x1a3.moviedb_service.Create_Payment_Intent_INR_Response\x12\\\n" +
+	"\vCreateOrder\x12%.moviedb_service.Create_Order_Request\x1a&.moviedb_service.Create_Order_Response\x12t\n" +
+	"\x10CommitCustomerID\x12+.moviedb_service.CommitIdempotentKeyRequest\x1a3.moviedb_service.Create_Payment_Intent_INR_Response\x12r\n" +
+	"\x0eCommitOrderIds\x12+.moviedb_service.CommitIdempotentKeyRequest\x1a3.moviedb_service.Create_Payment_Intent_INR_Response\x12a\n" +
+	"\x0eCreateCustomer\x12&.moviedb_service.CreateCustomerRequest\x1a'.moviedb_service.CreateCustomerResponse\x12l\n" +
+	"\x13GeneratePaymentLink\x12).moviedb_service.CreatePaymentLinkRequest\x1a*.moviedb_service.CreatePaymentLinkResponseBNZLgithub.com/kartik7120/booking_payment_service/cmd/grpcServer;payment_serviceb\x06proto3"
 
 var (
 	file_payment_service_proto_rawDescOnce sync.Once
@@ -864,7 +1567,7 @@ func file_payment_service_proto_rawDescGZIP() []byte {
 }
 
 var file_payment_service_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_payment_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_payment_service_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_payment_service_proto_goTypes = []any{
 	(Currency)(0),                              // 0: moviedb_service.Currency
 	(PaymentStatus)(0),                         // 1: moviedb_service.PaymentStatus
@@ -875,20 +1578,44 @@ var file_payment_service_proto_goTypes = []any{
 	(*CreateCheckoutSessionResponse)(nil),      // 6: moviedb_service.CreateCheckoutSessionResponse
 	(*ProductBookedSeats)(nil),                 // 7: moviedb_service.ProductBookedSeats
 	(*Create_Payment_Intent_INR_Request)(nil),  // 8: moviedb_service.Create_Payment_Intent_INR_Request
-	(*Create_Payment_Intent_INR_Response)(nil), // 9: moviedb_service.Create_Payment_Intent_INR_Response
-	(*timestamp.Timestamp)(nil),                // 10: google.protobuf.Timestamp
+	(*IsValidIdempotentKeyRequest)(nil),        // 9: moviedb_service.IsValidIdempotentKeyRequest
+	(*IsValidIdempotentKeyResponse)(nil),       // 10: moviedb_service.IsValidIdempotentKeyResponse
+	(*CommitIdempotentKeyRequest)(nil),         // 11: moviedb_service.CommitIdempotentKeyRequest
+	(*Create_Payment_Intent_INR_Response)(nil), // 12: moviedb_service.Create_Payment_Intent_INR_Response
+	(*Order)(nil),                              // 13: moviedb_service.Order
+	(*Create_Order_Request)(nil),               // 14: moviedb_service.Create_Order_Request
+	(*Create_Order_Response)(nil),              // 15: moviedb_service.Create_Order_Response
+	(*CreateCustomerRequest)(nil),              // 16: moviedb_service.CreateCustomerRequest
+	(*CreateCustomerResponse)(nil),             // 17: moviedb_service.CreateCustomerResponse
+	(*CreatePaymentLinkRequest)(nil),           // 18: moviedb_service.CreatePaymentLinkRequest
+	(*CreatePaymentLinkResponse)(nil),          // 19: moviedb_service.CreatePaymentLinkResponse
+	(*timestamp.Timestamp)(nil),                // 20: google.protobuf.Timestamp
 }
 var file_payment_service_proto_depIdxs = []int32{
 	2,  // 0: moviedb_service.CheckoutSessionLineItemParam.paymentType:type_name -> moviedb_service.PaymentType
-	10, // 1: moviedb_service.PaymentIntent.created:type_name -> google.protobuf.Timestamp
+	20, // 1: moviedb_service.PaymentIntent.created:type_name -> google.protobuf.Timestamp
 	3,  // 2: moviedb_service.CreateCheckoutSessionRequest.payment_items:type_name -> moviedb_service.CheckoutSessionLineItemParam
 	0,  // 3: moviedb_service.Create_Payment_Intent_INR_Request.currency:type_name -> moviedb_service.Currency
 	5,  // 4: moviedb_service.PaymentService.CreateCheckOutSession:input_type -> moviedb_service.CreateCheckoutSessionRequest
 	8,  // 5: moviedb_service.PaymentService.CreatePaymentLink:input_type -> moviedb_service.Create_Payment_Intent_INR_Request
-	6,  // 6: moviedb_service.PaymentService.CreateCheckOutSession:output_type -> moviedb_service.CreateCheckoutSessionResponse
-	9,  // 7: moviedb_service.PaymentService.CreatePaymentLink:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
-	6,  // [6:8] is the sub-list for method output_type
-	4,  // [4:6] is the sub-list for method input_type
+	9,  // 6: moviedb_service.PaymentService.IsValidIdempotentKey:input_type -> moviedb_service.IsValidIdempotentKeyRequest
+	11, // 7: moviedb_service.PaymentService.CommitIdempotentKey:input_type -> moviedb_service.CommitIdempotentKeyRequest
+	14, // 8: moviedb_service.PaymentService.CreateOrder:input_type -> moviedb_service.Create_Order_Request
+	11, // 9: moviedb_service.PaymentService.CommitCustomerID:input_type -> moviedb_service.CommitIdempotentKeyRequest
+	11, // 10: moviedb_service.PaymentService.CommitOrderIds:input_type -> moviedb_service.CommitIdempotentKeyRequest
+	16, // 11: moviedb_service.PaymentService.CreateCustomer:input_type -> moviedb_service.CreateCustomerRequest
+	18, // 12: moviedb_service.PaymentService.GeneratePaymentLink:input_type -> moviedb_service.CreatePaymentLinkRequest
+	6,  // 13: moviedb_service.PaymentService.CreateCheckOutSession:output_type -> moviedb_service.CreateCheckoutSessionResponse
+	12, // 14: moviedb_service.PaymentService.CreatePaymentLink:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
+	10, // 15: moviedb_service.PaymentService.IsValidIdempotentKey:output_type -> moviedb_service.IsValidIdempotentKeyResponse
+	12, // 16: moviedb_service.PaymentService.CommitIdempotentKey:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
+	15, // 17: moviedb_service.PaymentService.CreateOrder:output_type -> moviedb_service.Create_Order_Response
+	12, // 18: moviedb_service.PaymentService.CommitCustomerID:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
+	12, // 19: moviedb_service.PaymentService.CommitOrderIds:output_type -> moviedb_service.Create_Payment_Intent_INR_Response
+	17, // 20: moviedb_service.PaymentService.CreateCustomer:output_type -> moviedb_service.CreateCustomerResponse
+	19, // 21: moviedb_service.PaymentService.GeneratePaymentLink:output_type -> moviedb_service.CreatePaymentLinkResponse
+	13, // [13:22] is the sub-list for method output_type
+	4,  // [4:13] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -905,7 +1632,7 @@ func file_payment_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_payment_service_proto_rawDesc), len(file_payment_service_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   7,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
