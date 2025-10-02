@@ -300,10 +300,16 @@ func (m *Payment_Service) IsValidateItempotentKey(key string) (bool, error) {
 	return true, nil // Key found, so it's not valid to use again
 }
 
-func (m *Payment_Service) CommitIdempotentKey(key string) error {
+func (m *Payment_Service) CommitIdempotentKey(key string, customer_id string, orderIds []string, movie_time_slot_id int32, booked_seats_ids []int32) error {
 
-	result := m.DB.Model(&models.Idempotent{}).Create(&models.Idempotent{
-		IdempotentKey: key,
+	result := m.DB.Model(models.Idempotent{}).Create(&models.Idempotent{
+		IdempotentKey:   key,
+		CustomerID:      customer_id,
+		OrderIDs:        orderIds,
+		ExpiredAt:       time.Now().Add(24 * time.Hour), // Set expiration time to 24 hours from now
+		MovieTimeSlotID: uint(movie_time_slot_id),
+		BookedSeatsId:   booked_seats_ids,
+		PaymentStatus:   "PENDING",
 	})
 
 	if result.Error != nil {
@@ -457,26 +463,38 @@ func (c *Payment_Service) GeneratePaymentLink(idempotentKey string) (string, err
 
 	dodopayments.NewWebhookEventService()
 
+	seatsJSON, _ := json.Marshal(Idempotent.BookedSeatsId)
+
+	// Get the customer details
+
+	customer, err := c.Client.Customers.Get(context.TODO(), Idempotent.CustomerID)
+
+	if err != nil {
+		log.Error("Failed to find customer details: ", err)
+		return "", fmt.Errorf("failed to find customer details: %w", err)
+	}
+
 	paymentLink, err := c.Client.Payments.New(ctx, dodopayments.PaymentNewParams{
 		Billing: dodopayments.F(dodopayments.BillingAddressParam{
 			Country: dodopayments.F(dodopayments.CountryCodeIn),
-			State:   dodopayments.F("Karnataka"),          // Replace with your state
-			City:    dodopayments.F("Banglore"),           // Replace with your city
-			Street:  dodopayments.F("123 Example Street"), // Replace with your street
-			Zipcode: dodopayments.F("560001"),             // Replace with your zipcode
+			State:   dodopayments.F("Karnataka"),
+			City:    dodopayments.F("Banglore"),
+			Street:  dodopayments.F("123 Example Street"),
+			Zipcode: dodopayments.F("560001"),
 		}),
 		Customer: dodopayments.F[dodopayments.CustomerRequestUnionParam](dodopayments.AttachExistingCustomerParam{
 			CustomerID: dodopayments.F(Idempotent.CustomerID),
 		}),
 		ProductCart:     dodopayments.F(productCartArr),
 		PaymentLink:     dodopayments.F(true),
-		ReturnURL:       dodopayments.F("https://example.com/return"), // Replace with your return URL
+		ReturnURL:       dodopayments.F("http://localhost:5173/confirmingBooking"),
 		BillingCurrency: dodopayments.F(dodopayments.CurrencyInr),
 		Metadata: dodopayments.F(map[string]string{
 			"idempotent_key":     idempotentKey,
 			"movie_time_slot_id": fmt.Sprint(Idempotent.MovieTimeSlotID),
-			"booked_seats_id":    string(Idempotent.BookedSeatsId),
+			"booked_seats_id":    string(seatsJSON), // ✅ JSON array as string
 			"customer_id":        Idempotent.CustomerID,
+			"customer_phone":     customer.PhoneNumber,
 		}),
 	})
 

@@ -21,9 +21,6 @@ func TestMigrateDB(t *testing.T) {
 		m := server.NewPaymentServer()
 
 		m.Ps.DB.AutoMigrate(&models.Idempotent{})
-
-		// m.Ps.DB.AutoMigrate(&models.Payment{})
-		// m.Ps.DB.AutoMigrate(&models.Order{})
 	})
 
 	t.Run("DropTables", func(t *testing.T) {
@@ -36,5 +33,6 @@ func TestMigrateDB(t *testing.T) {
 		m := server.NewPaymentServer()
 
 		m.Ps.DB.Migrator().DropTable(&models.Idempotent{})
+		// , &models.Payment{}, &models.Order{}, &models.BookedSeats{}, &models.Ledger{}, &models.Wallet{}
 	})
 }

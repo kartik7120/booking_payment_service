@@ -197,7 +197,7 @@ func (p *Payment_Server) IsValidIdempotentKey(ctx context.Context, in *payment_s
 
 func (p *Payment_Server) CommitIdempotentKey(ctx context.Context, in *payment_service.CommitIdempotentKeyRequest) (*payment_service.Create_Payment_Intent_INR_Response, error) {
 	// Commit the idempotent key
-	err := p.Ps.CommitIdempotentKey(in.IdempotentKey)
+	err := p.Ps.CommitIdempotentKey(in.IdempotentKey, in.CustomerId, in.OrderIds, in.MovieTimeSlotId, in.BookedSeatsIds)
 
 	if err != nil {
 		return &payment_service.Create_Payment_Intent_INR_Response{
