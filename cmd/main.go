@@ -20,8 +20,9 @@ func main() {
 
 	if err != nil {
 		log.Error("Error loading .env file")
-		panic(err)
+		// panic(err)
 	}
+
 	log.SetOutput(os.Stdout)
 	// log.SetFormatter(&log.JSONFormatter{})
 	log.SetReportCaller(true)
