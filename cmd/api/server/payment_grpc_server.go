@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"time"
 
@@ -197,6 +198,9 @@ func (p *Payment_Server) IsValidIdempotentKey(ctx context.Context, in *payment_s
 
 func (p *Payment_Server) CommitIdempotentKey(ctx context.Context, in *payment_service.CommitIdempotentKeyRequest) (*payment_service.Create_Payment_Intent_INR_Response, error) {
 	// Commit the idempotent key
+
+	fmt.Println("booked seat ids in commit_idempotent_key function : \n", in.BookedSeatsIds)
+
 	err := p.Ps.CommitIdempotentKey(in.IdempotentKey, in.CustomerId, in.OrderIds, in.MovieTimeSlotId, in.BookedSeatsIds)
 
 	if err != nil {
@@ -274,6 +278,7 @@ func (p *Payment_Server) CreateOrder(ctx context.Context, in *payment_service.Cr
 		})
 
 		if err != nil {
+			log.Errorf("error creating product : %s", err.Error())
 			return &payment_service.Create_Order_Response{
 				Status:  500,
 				Error:   err.Error(),

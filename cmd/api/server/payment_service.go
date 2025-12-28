@@ -302,6 +302,12 @@ func (m *Payment_Service) IsValidateItempotentKey(key string) (bool, error) {
 
 func (m *Payment_Service) CommitIdempotentKey(key string, customer_id string, orderIds []string, movie_time_slot_id int32, booked_seats_ids []int32) error {
 
+	fmt.Printf("customer id in commit idempotent key : %s\n", customer_id)
+	fmt.Printf("order ids in commit idempotent key : %s\n", orderIds)
+	fmt.Printf("idempotent key in commit idempotent key : %q\n", orderIds)
+	fmt.Printf("movie time slot id in commit idempotent key : %v\n", movie_time_slot_id)
+	fmt.Printf("booked seats ids in commit idempotent key : %v\n", booked_seats_ids)
+
 	result := m.DB.Model(models.Idempotent{}).Create(&models.Idempotent{
 		IdempotentKey:   key,
 		CustomerID:      customer_id,
@@ -465,6 +471,7 @@ func (c *Payment_Service) GeneratePaymentLink(idempotentKey string) (string, err
 
 	seatsJSON, _ := json.Marshal(Idempotent.BookedSeatsId)
 
+	redirectURL := os.Getenv("REDIRECT_URL")
 	// Get the customer details
 
 	customer, err := c.Client.Customers.Get(context.TODO(), Idempotent.CustomerID)
@@ -487,7 +494,7 @@ func (c *Payment_Service) GeneratePaymentLink(idempotentKey string) (string, err
 		}),
 		ProductCart:     dodopayments.F(productCartArr),
 		PaymentLink:     dodopayments.F(true),
-		ReturnURL:       dodopayments.F("http://localhost:5173/confirmingBooking"),
+		ReturnURL:       dodopayments.F(redirectURL),
 		BillingCurrency: dodopayments.F(dodopayments.CurrencyInr),
 		Metadata: dodopayments.F(map[string]string{
 			"idempotent_key":     idempotentKey,

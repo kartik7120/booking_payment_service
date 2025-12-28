@@ -17,7 +17,7 @@ func NewMovieDBClient() (MovieDBServiceClient, error) {
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
-	conn, err := grpc.NewClient(":1102", opts...)
+	conn, err := grpc.NewClient("booking_moviedb_service:1102", opts...)
 
 	if err != nil {
 		return nil, err

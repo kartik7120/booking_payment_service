@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/dodopayments/dodopayments-go"
 	log "github.com/sirupsen/logrus"
@@ -18,6 +19,10 @@ func (m *Payment_Service) Create_Product_Ticket(product Product) (*dodopayments.
 	// Create a product with the given name and price
 
 	log.Infof("Creating product with name: %s, price: %d", product.ProductName, product.Price)
+
+	dodo_token := os.Getenv("DODOPAYMENT_TOKEN")
+
+	log.Infof("DODO_TOKEN = %s", dodo_token)
 
 	p, err := m.Client.Products.New(context.Background(), dodopayments.ProductNewParams{
 		Price: dodopayments.F[dodopayments.PriceUnionParam](dodopayments.PriceOneTimePriceParam{
