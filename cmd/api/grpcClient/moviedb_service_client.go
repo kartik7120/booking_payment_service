@@ -1,8 +1,12 @@
 package moviedb
 
 import (
+	"os"
+	"time"
+
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/keepalive"
 )
 
 func NewMovieDBClient() (MovieDBServiceClient, error) {
@@ -14,10 +18,23 @@ func NewMovieDBClient() (MovieDBServiceClient, error) {
 	// client := moviedb.NewClient(moviedb.WithAPIKey(os.Getenv("MOVIEDB_API_KEY")))
 	// return client
 
-	var opts []grpc.DialOption
-	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	// var opts []grpc.DialOption
+	grpcOpts := []grpc.DialOption{
+		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+		grpc.WithKeepaliveParams(keepalive.ClientParameters{
+			Time:                30 * time.Second,
+			Timeout:             10 * time.Second,
+			PermitWithoutStream: true,
+		}),
+	}
 
-	conn, err := grpc.NewClient("booking_moviedb_service:1102", opts...)
+	moviedb_service_url := os.Getenv("MOVIEDB_URL")
+
+	if moviedb_service_url == "" {
+		moviedb_service_url = "booking_moviedb_service:1102"
+	}
+
+	conn, err := grpc.NewClient(moviedb_service_url, grpcOpts...)
 
 	if err != nil {
 		return nil, err

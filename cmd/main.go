@@ -7,70 +7,73 @@ import (
 	"syscall"
 
 	"github.com/joho/godotenv"
-	log "github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
-
 	payment_service "github.com/kartik7120/booking_payment_service/cmd/api/grpcServer"
 	"github.com/kartik7120/booking_payment_service/cmd/api/server"
+	log "github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
 )
 
 func main() {
 
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Error("Error loading .env file")
-		// panic(err)
+	// --------------------------------------------------
+	// ENV (load .env only locally)
+	// --------------------------------------------------
+	if os.Getenv("ENV") != "production" {
+		_ = godotenv.Load()
 	}
 
+	// --------------------------------------------------
+	// Logging
+	// --------------------------------------------------
 	log.SetOutput(os.Stdout)
-	// log.SetFormatter(&log.JSONFormatter{})
 	log.SetReportCaller(true)
 
-	lis, err := net.Listen("tcp", ":1104")
-
-	if err != nil {
-		log.Error("Error starting the server")
-		panic(err)
+	if os.Getenv("ENV") == "production" {
+		log.SetLevel(log.InfoLevel)
+	} else {
+		log.SetLevel(log.DebugLevel)
 	}
 
-	signalChan := make(chan os.Signal, 1)
+	// --------------------------------------------------
+	// Port (Cloud Run SAFE)
+	// --------------------------------------------------
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "1104" // local fallback ONLY
+	}
 
-	signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
+	addr := "0.0.0.0:" + port
+	log.Infof("Starting Payment gRPC service on %s", addr)
 
-	var opts []grpc.ServerOption
+	lis, err := net.Listen("tcp", addr)
+	if err != nil {
+		log.Fatalf("Failed to listen on %s: %v", addr, err)
+	}
 
-	grpcServer := grpc.NewServer(opts...)
-
-	// Register the service here
+	// --------------------------------------------------
+	// gRPC Server
+	// --------------------------------------------------
+	grpcServer := grpc.NewServer()
 
 	paymentServer := server.NewPaymentServer()
-
 	payment_service.RegisterPaymentServiceServer(grpcServer, paymentServer)
 
-	log.Info("Payment Service is running on port 1104")
+	// --------------------------------------------------
+	// Graceful shutdown
+	// --------------------------------------------------
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, syscall.SIGTERM, syscall.SIGINT)
 
 	go func() {
+		log.Info("Payment gRPC server is now listening")
 		if err := grpcServer.Serve(lis); err != nil {
-			log.Error("Failed to start gRPC server: ", err)
-			os.Exit(1)
+			log.Fatalf("gRPC server failed: %v", err)
 		}
 	}()
 
 	<-signalChan
-
-	log.Info("Received shutdown signal, stopping server...")
+	log.Info("Shutdown signal received")
 
 	grpcServer.GracefulStop()
-
-	log.Info("Server stopped gracefully")
-
-	if err := lis.Close(); err != nil {
-		log.Error("Failed to close listener: ", err)
-	} else {
-		log.Info("Listener closed successfully")
-	}
-
-	log.Info("Payment Service has stopped")
-
+	log.Info("Payment service stopped gracefully")
 }

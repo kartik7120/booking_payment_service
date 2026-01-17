@@ -474,6 +474,8 @@ func (c *Payment_Service) GeneratePaymentLink(idempotentKey string) (string, err
 	redirectURL := os.Getenv("REDIRECT_URL")
 	// Get the customer details
 
+	fmt.Printf("ReturnURL: %q\n", redirectURL)
+
 	customer, err := c.Client.Customers.Get(context.TODO(), Idempotent.CustomerID)
 
 	if err != nil {

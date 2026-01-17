@@ -28,7 +28,7 @@ func NewPaymentServer() *Payment_Server {
 		panic("DODOPAYMENT_TOKEN environment variable is not set")
 	}
 
-	if os.Getenv("DB_URL_TEST") == "" {
+	if os.Getenv("DB_URL") == "" {
 		panic("DB_URL environment variable is not set")
 	}
 
@@ -39,7 +39,7 @@ func NewPaymentServer() *Payment_Server {
 		panic("Failed to create MovieDB client: " + err.Error())
 	}
 
-	conn, err := gorm.Open(postgres.Open(os.Getenv("DB_URL_TEST")), &gorm.Config{})
+	conn, err := gorm.Open(postgres.Open(os.Getenv("DB_URL")), &gorm.Config{})
 
 	if err != nil {
 		log.Errorf("Failed to connect to the database: %v", err)
@@ -64,6 +64,7 @@ func NewPaymentServer() *Payment_Server {
 		Ps: &Payment_Service{
 			Client: dodopayments.NewClient(
 				option.WithBearerToken(os.Getenv("DODOPAYMENT_TOKEN")),
+				option.WithBaseURL("https://test.dodopayments.com"),
 			),
 			Validator: validator.New(),
 			DB:        conn,
@@ -220,6 +221,8 @@ func (p *Payment_Server) CommitIdempotentKey(ctx context.Context, in *payment_se
 
 func (p *Payment_Server) CreateOrder(ctx context.Context, in *payment_service.Create_Order_Request) (*payment_service.Create_Order_Response, error) {
 
+	fmt.Println("Inside the Create order grpc function")
+
 	var productIds []string
 
 	if in.MovieTimeSlotId == 0 || len(in.SeatMatrixIDs) == 0 {
@@ -245,6 +248,8 @@ func (p *Payment_Server) CreateOrder(ctx context.Context, in *payment_service.Cr
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
+	fmt.Println("calling the is valid to commit seats function for booking")
+
 	response, err := p.Ms.IsValidToCommitSeatsForBooking(ctx, &moviedb_service.IsValidToCommitSeatsForBooking_Request{
 		MovieTimeSlotId: in.MovieTimeSlotId,
 		SeatMatrixIds:   in.SeatMatrixIDs,
@@ -265,6 +270,8 @@ func (p *Payment_Server) CreateOrder(ctx context.Context, in *payment_service.Cr
 			Message: "Invalid movie time slot or seat matrix IDs",
 		}, nil
 	}
+
+	fmt.Println("Creating products for the booked seats")
 
 	// Call the moviedb service to get information about the movie name, seats that need to be booked, and their prices
 
